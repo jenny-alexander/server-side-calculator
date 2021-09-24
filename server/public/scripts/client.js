@@ -54,29 +54,31 @@ function clearInput() {
         //[['32','+'],['20','*'],['5']]
         let userInput = $( '#userInput' ).val();
         console.log(userInput);
-        //TODO: HOW TO GET userInput into an array separated by commas?
-        //search through userInput and find all 4 symbols 
-        let regExp = /[-+*/]/g,
-               str = userInput,
-                match;
-        let tempUserInput = '';
-        while ((match = regExp.exec(str)) != null) {
-            console.log("match found at " + match.index);
+        //TODO: Replace this with a method where we pass the input and the chars to replalce
+        //USE MATCH and then call method????
+        let string1 = userInput.replaceAll( '+',',+,' );
+        userInput = string1;
+        let string2 = userInput.replaceAll( '-',',-,' );
+        userInput = string2;
+        let string3 = userInput.replaceAll( '*',',*,' );
+        userInput = string3;
+        let string4 = userInput.replaceAll( '/',',/,' );
+        userInput = string4;
         
-        }
-
-
-        let array = ['30','+','20','*','5']; //250
-        let finalArray = [];
-        while ( array.length ) {
-            finalArray.push( array.splice( 0, 2 ) );
+        //split the string at commas
+        let inputArray = userInput.split( ',' );
+        console.log( inputArray );
+        //let array = ['30','+','20','*','5']; //250
+        let calculationsArray = [];
+        while ( inputArray.length ) {
+            calculationsArray.push( inputArray.splice( 0, 2 ) );
         }
             
-        console.log(finalArray);
+        console.log(calculationsArray);
 
         let objectToSend = {
-            firstName: 'Jennifer',
-            lastName: 'Alexander'
+            calculations: calculationsArray,
+            answer: ''
         }
         // make AJAX POST with the object
         $.ajax({
