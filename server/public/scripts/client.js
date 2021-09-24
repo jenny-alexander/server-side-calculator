@@ -10,13 +10,8 @@ $( document ).ready( onReady );
 //     getCalculations();
      $( '#submitCalculationButton' ).on( 'click', submitCalculation );
      $( '.keypad' ).on( 'click', appendUserInputToScreen );
-     //$( '.symbol' ).on( 'click', addOperationToArray );
  }
-//  function addOperationToArray () {
-//     //create a "behind-the-scenes" array with user input separated by ','.
-//     dataArray.push()
-    
-//  }
+
 function appendUserInputToScreen () {
     let value = $( '#userInput' ).val() + $( this ).data( 'value' );
     //TODO: Don't show = sign in input field
@@ -26,25 +21,6 @@ function clearInput() {
     $( '#userInput' ).val('');
     operation ='';
 }
-
-// function getOperation() {
-//     operation = $( this ).attr( 'id' );
-//     //convert to numeric symbol
-//     switch ( operation ) {
-//         case 'add':
-//             operation = '+';
-//             break;
-//         case 'subtract':
-//             operation = '-';
-//             break;
-//         case 'multiply':
-//             operation = '*';
-//             break;
-//         case 'divide':
-//             operation = '/';
-//             break;
-//     }
-// }
  function submitCalculation() {
      console.log(`in submitCalculation `)
     if ( checkInputFields() == false ) {
@@ -53,7 +29,7 @@ function clearInput() {
         //take input and put into an array that will look like this:
         //[['32','+'],['20','*'],['5']]
         let userInput = $( '#userInput' ).val();
-        console.log(userInput);
+        console.log(userInput); //REMOVE TEST DATA
         //TODO: Replace this with a method where we pass the input and the chars to replalce
         //USE MATCH and then call method????
         let string1 = userInput.replaceAll( '+',',+,' );
@@ -67,14 +43,14 @@ function clearInput() {
         
         //split the string at commas
         let inputArray = userInput.split( ',' );
-        console.log( inputArray );
-        //let array = ['30','+','20','*','5']; //250
+        console.log( inputArray ); //REMOVE TEST DATA
+
         let calculationsArray = [];
         while ( inputArray.length ) {
             calculationsArray.push( inputArray.splice( 0, 2 ) );
         }
             
-        console.log(calculationsArray);
+        console.log(calculationsArray); //REMOVE TEST DATA
 
         let objectToSend = {
             calculations: calculationsArray,

@@ -21,48 +21,37 @@ app.listen( port, ()=>{
 //routes
 //GET route
 app.get( '/calculations', ( req, res )=>{
-    console.log('in GET route on server');
+    console.log('in GET route on server'); //REMOVE TEST DATA
     res.send( calculations );
 })
 //POST route
 app.post( '/calculations', ( req, res )=>{
-    console.log('in POST route on server', req.body);
+    console.log('in POST route on server', req.body); //REMOVE TEST DATA
+
     let total = '';
     let symbol = '';
-    //do calculations with req.body here
-    //looks like this:
-    //{ calculations: [ [ '85', '+' ], [ '3', '+' ], [ '9' ] ], answer: '' }
+    let calculations = req.body.calculations;
     
-    let calculations = [];
-    calculations = req.body.calculations;
-    console.log(calculations);
     for ( let i = 0; i < calculations.length; i++ ){
-
         if ( i == 0 ) {
             total = calculations[i][0];
             symbol = calculations[i][1];
-            console.log( `total is:`,total,`and symbol is:`,symbol );
         } else {
             total = doCalculation( total, calculations[i][0], symbol );
             //assign the symbol for the next go around
-
             symbol = calculations[i][1];
-            console.log( `total from else is:`, total );
         }
     }
-
-    //req.body.answer = doCalculation( '1' , '4', '+' ); <--this works
-
-
+    req.body.answer = total;
     calculations.push( req.body );
     res.sendStatus( 200 );
 })
 
 function doCalculation ( firstNumber, secondNumber, symbol ) {
-    console.log(`in doCalculation with:`, firstNumber, secondNumber, symbol );
+    console.log(`in doCalculation with:`, firstNumber, secondNumber, symbol ); //REMOVE TEST DATA
     let answer = 0;
 
-    //convert strings to numbers
+    //convert strings to numbers for calculations
     firstNumber = Number( firstNumber );
     secondNumber = Number( secondNumber );
     //do calculation
@@ -80,7 +69,7 @@ function doCalculation ( firstNumber, secondNumber, symbol ) {
             answer = firstNumber / secondNumber;
             break;
     } 
-    console.log(answer)
+    console.log(answer) //REMOVE TEST DATA
     return answer;   
 }
 
