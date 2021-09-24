@@ -1,0 +1,38 @@
+h1,h2 {
+    font-family:'Courier New', Courier, monospace;
+}
+
+.button-container {
+    display: flex;
+    border: 1px solid black;
+    max-width: 50vh;
+    flex-direction: row; /*default */
+    flex-wrap: wrap;
+    padding: 10px;
+    padding-right: 0px;
+    font-family: 'Courier New', Courier, monospace;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: 5px black;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 4px;
+    cursor: pointer;
+    width: 80px;
+}
+
+#userInput {
+    margin-left: 4px;
+    width: 250px;
+    height: 40px;
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+}
+#clearInput {
+    margin-left: 0px;
+}
