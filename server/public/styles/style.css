@@ -36,3 +36,9 @@ h1,h2 {
 #clearInput {
     margin-left: 0px;
 }
+
+#calcAnswer {
+    font-family:'Courier New', Courier, monospace;
+    font-size: 22px;
+    font-weight: bold;
+}

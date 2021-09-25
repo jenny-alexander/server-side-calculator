@@ -11,7 +11,7 @@ app.use( bodyparser.urlencoded( { extended: true } ) );
 
 //globals
 const port = 5000;
-let calculations = [];
+let calculationsArray = [];
 
 //spin up server
 app.listen( port, ()=>{
@@ -21,8 +21,8 @@ app.listen( port, ()=>{
 //routes
 //GET route
 app.get( '/calculations', ( req, res )=>{
-    console.log('in GET route on server'); //REMOVE TEST DATA
-    res.send( calculations );
+    console.log('in GET route on server. calculationsArray has:',calculationsArray); //REMOVE TEST DATA
+    res.send( calculationsArray );
 })
 //POST route
 app.post( '/calculations', ( req, res )=>{
@@ -30,20 +30,32 @@ app.post( '/calculations', ( req, res )=>{
 
     let total = '';
     let symbol = '';
-    let calculations = req.body.calculations;
+    let calculations = String(req.body.calculations);
     
-    for ( let i = 0; i < calculations.length; i++ ){
+    //need to convert intput field from front-end (client.js) to
+    //format to be used here on server
+    let userInput = convertDataForServer( calculations );
+    //split the string at commas
+    let inputArray = userInput.split( ',' );
+    let tempCalcArray = [];
+
+    while ( inputArray.length ) {
+        tempCalcArray.push( inputArray.splice( 0, 2 ) );
+    }
+    
+    for ( let i = 0; i < tempCalcArray.length; i++ ){
         if ( i == 0 ) {
-            total = calculations[i][0];
-            symbol = calculations[i][1];
+            total = tempCalcArray[i][0];
+            symbol = tempCalcArray[i][1];
+
         } else {
-            total = doCalculation( total, calculations[i][0], symbol );
+            total = doCalculation( total, tempCalcArray[i][0], symbol );
             //assign the symbol for the next go around
-            symbol = calculations[i][1];
+            symbol = tempCalcArray[i][1];
         }
     }
     req.body.answer = total;
-    calculations.push( req.body );
+    calculationsArray.push( req.body );
     res.sendStatus( 200 );
 })
 
@@ -72,4 +84,21 @@ function doCalculation ( firstNumber, secondNumber, symbol ) {
     console.log(answer) //REMOVE TEST DATA
     return answer;   
 }
+function convertDataForServer( inputString ) {
+        let tempString = '';
 
+        //replace +
+        tempString = inputString.replace(/\+/g, ',+,');
+        inputString = tempString;  
+        //replace -
+        tempString = inputString.replace( /\-/g,',-,' );
+        inputString = tempString;
+        //replace *
+        tempString = inputString.replace( /\*/g,',*,' );
+        inputString = tempString;
+        //replace /
+        tempString = inputString.replace( /\//g,',/,' );
+        inputString = tempString;    
+    
+        return inputString;
+    }

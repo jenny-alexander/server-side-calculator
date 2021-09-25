@@ -1,59 +1,36 @@
-// global attributes
-let operation;
-let dataArray = [];
-
 $( document ).ready( onReady );
 
  function onReady() {
-     console.log(`in onReady`)
-    $( '#clearInput' ).on( 'click', clearInput );
-//     getCalculations();
-     $( '#submitCalculationButton' ).on( 'click', submitCalculation );
+     console.log(`in onReady`);
+     
+     $( '#clearInput' ).on( 'click', clearInput );
      $( '.keypad' ).on( 'click', appendUserInputToScreen );
+     $( '#submitCalculationButton' ).on( 'click', submitCalculation );
+     
+     getCalculations();
  }
 
 function appendUserInputToScreen () {
-    let value = $( '#userInput' ).val() + $( this ).data( 'value' );
-    //TODO: Don't show = sign in input field
-    $( '#userInput' ).val(value);
+    //Check to see if the user hit the '=' key. If yes, don't show the equal sign in the
+    //input field.
+    let value = '';
+    if ( $( this ).data( 'value' ) != '=' ) {  
+        value = $( '#userInput' ).val() + $( this ).data( 'value' );
+        $( '#userInput' ).val(value);
+    } else {
+        //Don't show = sign in input field
+        value = $( '#userInput' ).val();
+    }
  }
 function clearInput() {
     $( '#userInput' ).val('');
-    operation ='';
 }
  function submitCalculation() {
-     console.log(`in submitCalculation `)
     if ( checkInputFields() == false ) {
         alert( `Check input.` );
     } else {
-        //take input and put into an array that will look like this:
-        //[['32','+'],['20','*'],['5']]
-        let userInput = $( '#userInput' ).val();
-        console.log(userInput); //REMOVE TEST DATA
-        //TODO: Replace this with a method where we pass the input and the chars to replalce
-        //USE MATCH and then call method????
-        let string1 = userInput.replaceAll( '+',',+,' );
-        userInput = string1;
-        let string2 = userInput.replaceAll( '-',',-,' );
-        userInput = string2;
-        let string3 = userInput.replaceAll( '*',',*,' );
-        userInput = string3;
-        let string4 = userInput.replaceAll( '/',',/,' );
-        userInput = string4;
-        
-        //split the string at commas
-        let inputArray = userInput.split( ',' );
-        console.log( inputArray ); //REMOVE TEST DATA
-
-        let calculationsArray = [];
-        while ( inputArray.length ) {
-            calculationsArray.push( inputArray.splice( 0, 2 ) );
-        }
-            
-        console.log(calculationsArray); //REMOVE TEST DATA
-
         let objectToSend = {
-            calculations: calculationsArray,
+            calculations: $( '#userInput' ).val(),
             answer: ''
         }
         // make AJAX POST with the object
@@ -62,9 +39,10 @@ function clearInput() {
             url: '/calculations',
             data: objectToSend
         }).then( function( response ){
-            //if successful, update the DOM
-            console.log('back from server POST',response);
+            //if successful, update the DOM           
+            console.log('back from server POST',response); //TODO REMOVE TEST DATA
             getCalculations();
+            clearInput();
         }).catch( function( error ){
             alert('error submitting calculation');
             console.log('submit error:', error );
@@ -76,26 +54,25 @@ function clearInput() {
          method: 'GET',
          url: '/calculations'
      }).then( function( response ){
-         console.log('back from server GET',response);
-//         if ( response.length > 0 ){
-//             //target <p> answer element
-//             elAnswer = $( "#calcAnswer" );
-//             elAnswer.empty();
-//             elAnswer.append(response[response.length-1].answer);
+         console.log('back from server GET',response); //TODO REMOVE TEST DATA
+         if ( response.length > 0 ){
+            //target <p> answer element
+            elAnswer = $( "#calcAnswer" );
+            elAnswer.empty();
+            elAnswer.append(response[response.length-1].answer);
             
-//             //target list element 
-//             let elList = $( '#calculationsOut' );
-//             elList.empty();
+            //target list element 
+            let elList = $( '#calculationsOut' );
+            elList.empty();
 
-//             for ( let i = 0; i < response.length; i++ ) {
-//                 elList.append(
-//                     `<li>${response[i].firstNum} ${response[i].operation} 
-//                     ${response[i].secondNum} = ${response[i].answer}</li>`
-//                 )
-//             }
-//         }
+            for ( let i = 0; i < response.length; i++ ) {
+                elList.append(`<li>${response[i].calculations} = ${response[i].answer}</li>`)
+            }
+            //clear input fields for next entry
+            //clearInput();
+         }
      }).catch( function( error ) {
-         console.log( 'error:', error );
+         console.log( 'error:', error ); //TODO REMOVE TEST DATA
      })
  }
 
@@ -114,3 +91,17 @@ function checkInputFields() {
     //"32+43+"
 
 }
+//->>>Moved this to server.js
+// function convertDataForServer( userInput ) {
+// //TODO: MAKE THIS BETTER?
+//     let string1 = userInput.replaceAll( '+',',+,' );
+//     userInput = string1;
+//     let string2 = userInput.replaceAll( '-',',-,' );
+//     userInput = string2;
+//     let string3 = userInput.replaceAll( '*',',*,' );
+//     userInput = string3;
+//     let string4 = userInput.replaceAll( '/',',/,' );
+//     userInput = string4;    
+
+//     return userInput;
+// }
