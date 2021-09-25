@@ -2,14 +2,17 @@ h1,h2 {
     font-family:'Courier New', Courier, monospace;
 }
 
+body {
+    font-family: 'Courier New', Courier, monospace;
+}
 .button-container {
     display: flex;
     border: 1px solid black;
     max-width: 50vh;
     flex-direction: row; /*default */
     flex-wrap: wrap;
-    padding: 10px;
-    padding-right: 0px;
+    padding: 7px;
+    padding-right: 5px;
     font-family: 'Courier New', Courier, monospace;
 }
 .button {
@@ -41,4 +44,7 @@ h1,h2 {
     font-family:'Courier New', Courier, monospace;
     font-size: 22px;
     font-weight: bold;
+}
+#calculationsOut{
+    font-size: 18px;
 }

@@ -21,7 +21,15 @@ app.listen( port, ()=>{
 //routes
 //GET route
 app.get( '/calculations', ( req, res )=>{
-    console.log('in GET route on server. calculationsArray has:',calculationsArray); //REMOVE TEST DATA
+    console.log('in GET route on server'); //REMOVE TEST DATA
+    res.send( calculationsArray );
+})
+
+app.delete( '/calculations', ( req, res )=>{
+    console.log('in DELETE route on server')
+    while(calculationsArray.length > 0) {
+        calculationsArray.pop();
+    }
     res.send( calculationsArray );
 })
 //POST route
