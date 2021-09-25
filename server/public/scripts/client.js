@@ -49,6 +49,7 @@ function clearInput() {
         })
     }
 }
+
  function getCalculations() {
      $.ajax({
          method: 'GET',
@@ -76,6 +77,11 @@ function clearInput() {
      })
  }
 
+//TODO:
+//1-Check that there is only 1 period
+//2-Check that there are at least 2 numbers in input field
+//2-Check that operators are between two sets of number...what to do with this:
+//"32+43+"
 function checkInputFields() {
     //Check to make sure input fields are not empty
     if ( $( "#userInput" ).val() === '' ) {
@@ -83,25 +89,4 @@ function checkInputFields() {
     } else {
         return true; //Input field contains values
     }
-
-    //TODO:
-    //1-Check that there is only 1 period
-    //2-Check that there are at least 2 numbers in input field
-    //2-Check that operators are between two sets of number...what to do with this:
-    //"32+43+"
-
 }
-//->>>Moved this to server.js
-// function convertDataForServer( userInput ) {
-// //TODO: MAKE THIS BETTER?
-//     let string1 = userInput.replaceAll( '+',',+,' );
-//     userInput = string1;
-//     let string2 = userInput.replaceAll( '-',',-,' );
-//     userInput = string2;
-//     let string3 = userInput.replaceAll( '*',',*,' );
-//     userInput = string3;
-//     let string4 = userInput.replaceAll( '/',',/,' );
-//     userInput = string4;    
-
-//     return userInput;
-// }

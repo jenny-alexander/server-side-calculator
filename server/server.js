@@ -33,7 +33,7 @@ app.post( '/calculations', ( req, res )=>{
     let calculations = String(req.body.calculations);
     
     //need to convert intput field from front-end (client.js) to
-    //format to be used here on server
+    //the format to be used here on server
     let userInput = convertDataForServer( calculations );
     //split the string at commas
     let inputArray = userInput.split( ',' );
@@ -47,7 +47,6 @@ app.post( '/calculations', ( req, res )=>{
         if ( i == 0 ) {
             total = tempCalcArray[i][0];
             symbol = tempCalcArray[i][1];
-
         } else {
             total = doCalculation( total, tempCalcArray[i][0], symbol );
             //assign the symbol for the next go around
