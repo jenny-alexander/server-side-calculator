@@ -36,7 +36,7 @@ app.delete( '/calculations', ( req, res )=>{
 app.post( '/calculations', ( req, res )=>{
     console.log('in POST route on server', req.body); //REMOVE TEST DATA
 
-    let total = '';
+    let total = 0;
     let symbol = '';
     let calculations = String(req.body.calculations);
     
@@ -56,7 +56,7 @@ app.post( '/calculations', ( req, res )=>{
             total = tempCalcArray[i][0];
             symbol = tempCalcArray[i][1];
         } else {
-            total = doCalculation( total, tempCalcArray[i][0], symbol );
+            total = parseFloat(doCalculation( total, tempCalcArray[i][0], symbol ) ).toFixed(2);
             //assign the symbol for the next go around
             symbol = tempCalcArray[i][1];
         }
@@ -67,7 +67,6 @@ app.post( '/calculations', ( req, res )=>{
 })
 
 function doCalculation ( firstNumber, secondNumber, symbol ) {
-    console.log(`in doCalculation with:`, firstNumber, secondNumber, symbol ); //REMOVE TEST DATA
     let answer = 0;
 
     //convert strings to numbers for calculations
@@ -88,7 +87,7 @@ function doCalculation ( firstNumber, secondNumber, symbol ) {
             answer = firstNumber / secondNumber;
             break;
     } 
-    console.log(answer) //REMOVE TEST DATA
+
     return answer;   
 }
 function convertDataForServer( inputString ) {

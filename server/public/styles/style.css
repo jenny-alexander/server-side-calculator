@@ -1,9 +1,9 @@
-h1,h2 {
-    font-family:'Courier New', Courier, monospace;
-}
-
 body {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Anonymous Pro', monospace;
+    margin-left: 15px;
+}
+ul {
+    padding-left: 15px;
 }
 .button-container {
     display: flex;
@@ -13,38 +13,57 @@ body {
     flex-wrap: wrap;
     padding: 7px;
     padding-right: 5px;
-    font-family: 'Courier New', Courier, monospace;
+    padding-top: 25px;
+    font-family: 'Anonymous Pro', Courier, monospace;
+    border-radius: 10px;
+    background-color: rgb(226, 226, 226);    
 }
 .button {
-    background-color: #4CAF50; /* Green */
+    background-color: darkslategray;
     border: 5px black;
     color: white;
-    padding: 15px 32px;
+      /* round buttons */
+    inline-size: 60px;
+    block-size: 60px;
+    border-radius: 40px;
+    /* end round buttons */
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 20px;
     margin: 4px 4px;
     cursor: pointer;
     width: 80px;
+    font-family: 'Anonymous Pro', monospace;
+    /* border-radius: 10px; */
+    /* padding: 15px 32px; */
 }
-
+.symbol {
+    background-color: rgb(223, 49, 5);
+}
+#projectTitle {
+    font-size: 30px;
+}
 #userInput {
     margin-left: 4px;
     width: 250px;
     height: 40px;
     font-size: 20px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Anonymous Pro', monospace;
+    text-align: right;
+    background-color:#bccd95;  
 }
 #clearInput {
     margin-left: 0px;
 }
-
 #calcAnswer {
-    font-family:'Courier New', Courier, monospace;
-    font-size: 22px;
-    font-weight: bold;
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 24px;
+    /* font-weight: bold; */
 }
 #calculationsOut{
-    font-size: 18px;
+    font-size: 16px;
+}
+#submitCalculationButton {
+    background-color: rgb(236, 159, 16);
 }
