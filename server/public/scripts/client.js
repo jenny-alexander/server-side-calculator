@@ -81,11 +81,7 @@ function deleteHistory () {
             clearCalcHistory();
             appendCalcToList( response );
           } else {
-            //   Get the children of the DOM container and loop through the children & empty out
-            let children = $( "#outputDiv" ).children();
-            for( let i = 0; i < children.length; i++ ) {
-                $(children[i]).empty();
-            }
+            clearAllCalcOutput();
          }
      }).catch( function( error ) {
          console.log( 'error:', error ); //TODO REMOVE TEST DATA
@@ -146,5 +142,12 @@ function appendCalcToList( response ) {
         //input field of the calculator;
         calculationList = []; //clear it out
         calculationList.push( response );
+    }
+}
+function clearAllCalcOutput() {
+    //Get the children of the DOM container and loop through the children & empty out
+    let children = $( "#outputDiv" ).children();
+    for( let i = 0; i < children.length; i++ ) {
+        $(children[i]).empty();
     }
 }
