@@ -2,9 +2,10 @@
 let calculationList = [];
 
 $( document ).ready( onReady );
-
+/**
+ * Capture click events
+ */
  function onReady() {
-     //Capture click events
      $( '#clearInput' ).on( 'click', clearUserInput );
      $( '.keypad' ).on( 'click', appendUserInputToScreen );
      $( '#submitCalculationButton' ).on( 'click', submitCalculation );
@@ -12,22 +13,26 @@ $( document ).ready( onReady );
      $( '#calculationsOut' ).on( 'click', '#listItem',showCalculationFromList );
      getCalculations();
  }
-
+ /**
+  * Make AJAX DELETE call
+  */
 function deleteHistory () {
-        // make AJAX DELETE with the object
         $.ajax({
             method: 'DELETE',
             url: '/calculations',
         }).then( function( response ){
             //if successful, update the DOM           
             getCalculations();
-            //clearInput();
         }).catch( function( error ){
             alert('error deleting calculation history');
             console.log( 'error:', error ); 
         })
 }
+/**
+ * Make AJAX POST call
+ */
 function submitCalculation() {
+    //validate user input before making AJAX POST
     if ( isUserInputValid( $( '#userInput' ).val() ) == false ) {
         alert( `Check input.` );
     } else {
@@ -43,13 +48,15 @@ function submitCalculation() {
         }).then( function( response ){
             //if successful, update the DOM           
             getCalculations();
-            clearUserInput();
         }).catch( function( error ){
             alert('error submitting calculation');
             console.log( 'error:', error ); 
         })
     }
 }
+/**
+ * Make AJAX GET call
+ */
 function getCalculations() {
     // make AJAX GET with the object
      $.ajax({
@@ -93,6 +100,11 @@ function isUserInputValid( userInput ) {
     if ( multipleSymbolCheck.test( userInput ) ) {
         isInputGood = false;
     }
+    //check if we are displaying a historical calculation. if '=' it means, yes we are 
+    //and don't allow user to recalculate by hitting '=' button
+    if ( /\=/.test( userInput ) ) {
+        isInputGood = false;
+    }
     //check that first character/digit is a number
     if ( !/^\d/.test( userInput ) ) {
         isInputGood = false;
@@ -103,28 +115,40 @@ function isUserInputValid( userInput ) {
     }               
     return isInputGood;
 }
-//show calculation answer under the calculator
+/**
+ * Show the calculation answer underneath the calculator
+ */
 function showAnswer ( answer ) {
     let elAnswer = $( "#calcAnswer" );
     elAnswer.empty();
     elAnswer.append( `Answer: ` + answer );
 }
-//clear user input
+/**
+ * Clear historical list of calculations
+ */
+
 function clearCalcHistory() {
     let elClearButton = $( '#clearHistory' );
     elClearButton.empty();
-    elClearButton.append( `<button id="clearHistoryButton">Clear Calculation History</button>`);
+    elClearButton.append( `<button id="clearHistoryButton">Clear Calculator History</button>`);
 }
+/**
+ * Clear user input from calculator screen
+ */
 function clearUserInput() {
     $( '#userInput' ).val('');
 }
+/**
+ * Add the newest calculation to the list of calculations made ("history")
+ */
 function appendCalcToList( response ) {
     //target list element to show calculation in list format
     let elList = $( '#calculationsOut' );
     elList.empty();
     //append the calculation to the list
     for ( let i = 0; i < response.length; i++ ) {
-        elList.append(`<li id="listItem">${response[i].calculations} = ${response[i].answer}</li>`)
+        //elList.append(`<li id="listItem">${response[i].calculations} = ${response[i].answer}</li>`)
+        elList.append(`<li id="listItem">${response[i].calculations}</li>`)
         //Push each response record into global array. We access the global array when the user
         //clicks on the historical list of calculations in order to display one of them in the
         //input field of the calculator;
@@ -132,6 +156,9 @@ function appendCalcToList( response ) {
         calculationList.push( response );
     }
 }
+/**
+ * Clear historical list of calculations and the answer
+ */
 function clearAllCalcOutput() {
     //Get the children of the DOM container and loop through the children & empty out
     let children = $( "#outputDiv" ).children();
