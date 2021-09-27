@@ -12,7 +12,7 @@ app.use( bodyparser.urlencoded( { extended: true } ) );
 const port = 5000;
 let calculationsArray = [];
 //spin up server
-app.listen( port, ()=>{
+app.listen( process.env.PORT || port, ()=>{
     console.log( 'server is up on:', port );
 })
 //routes
