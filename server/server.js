@@ -147,7 +147,7 @@ function doOrderOfOperations( inputString ) {
             indexToSearch = divideIndex;
           }
         }
-        newCalc = stringArray.splice(indexToSearch - 1, indexToSearch);
+        newCalc = stringArray.splice(indexToSearch - 1, 3);
         pushCalc = doCalculation(newCalc[0], newCalc[2], newCalc[1]);
         stringArray.splice(indexToSearch - 1, 0, pushCalc.toString());
         //recalculate to decide if we should do another round of calculations for * and /
