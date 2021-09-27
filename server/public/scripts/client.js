@@ -4,7 +4,6 @@ let calculationList = [];
 $( document ).ready( onReady );
 
  function onReady() {
-     console.log(`in onReady`);
      //Capture click events
      $( '#clearInput' ).on( 'click', clearUserInput );
      $( '.keypad' ).on( 'click', appendUserInputToScreen );
@@ -15,18 +14,17 @@ $( document ).ready( onReady );
  }
 
 function deleteHistory () {
-        // make AJAX POST with the object
+        // make AJAX DELETE with the object
         $.ajax({
             method: 'DELETE',
             url: '/calculations',
         }).then( function( response ){
             //if successful, update the DOM           
-            console.log('back from server DELETE',response); //TODO REMOVE TEST DATA
             getCalculations();
             //clearInput();
         }).catch( function( error ){
             alert('error deleting calculation history');
-            console.log('submit error:', error );
+            console.log( 'error:', error ); 
         })
 }
 function submitCalculation() {
@@ -44,21 +42,20 @@ function submitCalculation() {
             data: objectToSend
         }).then( function( response ){
             //if successful, update the DOM           
-            console.log('back from server POST',response); //TODO REMOVE TEST DATA
             getCalculations();
             clearUserInput();
         }).catch( function( error ){
             alert('error submitting calculation');
-            console.log('submit error:', error );
+            console.log( 'error:', error ); 
         })
     }
 }
 function getCalculations() {
+    // make AJAX GET with the object
      $.ajax({
          method: 'GET',
          url: '/calculations'
      }).then( function( response ){
-         console.log( 'back from server GET',response ); //TODO REMOVE TEST DATA
          if ( response.length > 0 ){
             showAnswer(response[response.length-1].answer);
             clearCalcHistory();
@@ -67,7 +64,7 @@ function getCalculations() {
             clearAllCalcOutput();
          }
      }).catch( function( error ) {
-         console.log( 'error:', error ); //TODO REMOVE TEST DATA
+         console.log( 'error:', error ); 
      })
  }
 function showCalculationFromList() {
