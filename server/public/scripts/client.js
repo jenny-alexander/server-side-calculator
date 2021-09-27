@@ -13,24 +13,7 @@ $( document ).ready( onReady );
      $( '#calculationsOut' ).on( 'click', '#listItem',showCalculationFromList );
      getCalculations();
  }
-function showCalculationFromList() {
-    let index = $( this ).index();
-    let calcToShow = calculationList[0].slice( index, index + 1 );
-    $( '#userInput' ).val( calcToShow[0].calculations + '=' + calcToShow[0].answer );
-    showAnswer(calcToShow[0].answer );
-}
-function appendUserInputToScreen () {
-    //Check to see if the user hit the '=' key. If yes, don't show the equal sign in the
-    //input field.
-    let value = '';
-    if ( $( this ).data( 'value' ) != '=' ) {  
-        value = $( '#userInput' ).val() + $( this ).data( 'value' );
-        $( '#userInput' ).val( value );
-    } else {
-        //Don't show = sign in input field
-        value = $( '#userInput' ).val();
-    }
- }
+
 function deleteHistory () {
         // make AJAX POST with the object
         $.ajax({
@@ -46,7 +29,7 @@ function deleteHistory () {
             console.log('submit error:', error );
         })
 }
- function submitCalculation() {
+function submitCalculation() {
     if ( isUserInputValid( $( '#userInput' ).val() ) == false ) {
         alert( `Check input.` );
     } else {
@@ -70,7 +53,7 @@ function deleteHistory () {
         })
     }
 }
- function getCalculations() {
+function getCalculations() {
      $.ajax({
          method: 'GET',
          url: '/calculations'
@@ -87,18 +70,32 @@ function deleteHistory () {
          console.log( 'error:', error ); //TODO REMOVE TEST DATA
      })
  }
-
-//TODO:
-//1-Do I have to do order of operations? See how much work on Sunday 09/26
-//2-How to check if user entered different symbols in a row?
+function showCalculationFromList() {
+    let index = $( this ).index();
+    let calcToShow = calculationList[0].slice( index, index + 1 );
+    $( '#userInput' ).val( calcToShow[0].calculations + '=' + calcToShow[0].answer );
+    showAnswer(calcToShow[0].answer );
+}
+function appendUserInputToScreen () {
+    //Check to see if the user hit the '=' key. If yes, don't show the equal sign in the
+    //input field.
+    let value = '';
+    if ( $( this ).data( 'value' ) != '=' ) {  
+        value = $( '#userInput' ).val() + $( this ).data( 'value' );
+        $( '#userInput' ).val( value );
+    } else {
+        //Don't show = sign in input field
+        value = $( '#userInput' ).val();
+    }
+ }
 function isUserInputValid( userInput ) {
     let isInputGood = true;
-    let plusCheck = /(\+)\1/;
-    let minusCheck = /(\-)\1/;
-    let timesCheck = /(\*)\1/;
-    let divideCheck = /(\/)\1/;
-    let dotCheck = /(\.)\1/;
+    let multipleSymbolCheck = /[\W]{2}/g;
 
+    //check for all non-word characters that were entered 2 or more times in a row.
+    if ( multipleSymbolCheck.test( userInput ) ) {
+        isInputGood = false;
+    }
     //check that first character/digit is a number
     if ( !/^\d/.test( userInput ) ) {
         isInputGood = false;
@@ -106,13 +103,7 @@ function isUserInputValid( userInput ) {
     //check that last character/digit is a number
     if ( !/[0-9]$/.test( userInput ) ) {
         isInputGood = false;
-    } 
-    //check that two symbols were not entered in a row
-    if( plusCheck.test( userInput ) || minusCheck.test( userInput ) || 
-        timesCheck.test( userInput ) || divideCheck.test( userInput ) ||
-        dotCheck.test( userInput ) ) {
-        isInputGood = false;
-    }              
+    }               
     return isInputGood;
 }
 //show calculation answer under the calculator
